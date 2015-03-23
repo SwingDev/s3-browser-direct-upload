@@ -10,8 +10,8 @@
 In addition you can limit allowed file extensions.
 
 
-![amazon s3 browser post](http://docs.aws.amazon.com/AmazonS3/latest/dev/images/s3_post.png)
-Source: http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingHTTPPOST.html
+![amazon s3 browser post](http://docs.aws.amazon.com/AmazonS3/latest/dev/images/s3_post.png)<br/>
+Image source:http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingHTTPPOST.html
 
 ## Install
 ```npm install s3-browser-direct-upload```
