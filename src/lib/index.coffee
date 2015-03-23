@@ -40,6 +40,14 @@ class S3Client
       contentType = @_checkDataExtension extension
       return cb new Error 'Data extension not allowed' unless contentType
 
+    if algorithm.split('-').length == 3
+      arrAlgorithm = algorithm.split('-')
+      sigver = arrAlgorithm[0]
+      hashalg = arrAlgorithm[2].toLowerCase()
+    else
+      sigver = "AWS4"
+      hashalg = "sha256"
+
     policyDoc = {}
 
     policyDoc["expiration"] = moment(expires).format("YYYY-MM-DD[T]HH:MM:SS[Z]") if expires and _.isDate expires
@@ -57,19 +65,19 @@ class S3Client
     policyDoc.conditions.push { "x-amz-credential": "#{@accessKeyId}/#{dateShortPolicy}/#{region}/s3/aws4_request" }
     policyDoc.conditions.push { "x-amz-date": dateLongPolicy}
 
-    dateKey = crypto.createHmac('sha256', "AWS4#{@secretAccessKey}").update(dateShortPolicy).digest()
-    dateRegionKey = crypto.createHmac('sha256', dateKey).update(region).digest()
-    dateRegionServiceKey = crypto.createHmac('sha256', dateRegionKey).update('s3').digest()
-    signingKey = crypto.createHmac('sha256', dateRegionServiceKey).update('aws4_request').digest()
+    dateKey = crypto.createHmac(hashalg, "#{sigver}#{@secretAccessKey}").update(dateShortPolicy).digest()
+    dateRegionKey = crypto.createHmac(hashalg, dateKey).update(region).digest()
+    dateRegionServiceKey = crypto.createHmac(hashalg, dateRegionKey).update('s3').digest()
+    signingKey = crypto.createHmac(hashalg, dateRegionServiceKey).update("#{sigver.toLowerCase()}_request").digest()
     policy = new Buffer(JSON.stringify(policyDoc)).toString('base64')
-    signature = crypto.createHmac('sha256',signingKey).update(policy).digest('hex')
+    signature = crypto.createHmac(hashalg,signingKey).update(policy).digest('hex')
 
     stream = {}
     stream['params'] =
       "key": key
       "acl": acl
       "x-amz-algorithm": algorithm
-      "x-amz-credential": "#{@accessKeyId}/#{dateShortPolicy}/#{region}/s3/aws4_request"
+      "x-amz-credential": "#{@accessKeyId}/#{dateShortPolicy}/#{region}/s3/#{sigver.toLowerCase()}_request"
       "x-amz-date": dateLongPolicy
       "policy": policy
       "x-amz-signature": signature
