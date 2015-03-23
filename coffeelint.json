@@ -1,0 +1,40 @@
+{
+  "no_tabs" : {
+    "level" : "warn"
+  },
+
+  "no_trailing_whitespace" : {
+    "level" : "warn"
+  },
+
+  "max_line_length" : {
+    "value": 150,
+    "level" : "warn"
+  },
+
+  "camel_case_classes" : {
+    "level" : "warn"
+  },
+
+  "indentation" : {
+    "value" : 2,
+    "level" : "warn"
+  },
+
+  "no_trailing_semicolons" : {
+    "level" : "warn"
+  },
+
+  "no_throwing_strings" : {
+    "level" : "ignore"
+  },
+
+  "no_backticks": {
+    "level": "ignore"
+  },
+
+  "line_endings" : {
+    "value" : "unix",
+    "level" : "ignore"
+  }
+}
