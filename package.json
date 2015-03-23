@@ -1,21 +1,22 @@
 {
-  "name": "s3-browser-upload",
-  "version": "0.0.1",
-  "description": "s3-browser-upload for node",
+  "name": "s3-browser-direct-upload",
+  "version": "0.1.0",
+  "description": "s3-browser-direct-upload for node",
   "main": "index.js",
   "author": "SWINGDEV",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "test": "mocha --reporter spec --timeout 10000 --recursive test/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SwingDev/s3-browser-upload.git"
+    "url": "https://github.com/SwingDev/s3-browser-direct-upload.git"
   },
   "keywords": [
-    "s3-browser-upload",
+    "s3-browser-direct-upload",
     "s3",
     "browser",
+    "direct",
     "upload"
   ],
   "dependencies": {

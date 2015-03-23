@@ -1,6 +1,6 @@
-# Node Amazon S3 Browser Upload
+# Node Amazon S3 Browser Direct Upload
 
-`s3-browser-upload` is a node.js library which gives you the ability to upload files to Amazon S3 easily using:
+`s3-browser-direct-upload` is a node.js library which gives you the ability to upload files to Amazon S3 easily using:
 
 * browser/mobile-based straight-to-S3 uploads using POST
 * S3.upload method
@@ -14,13 +14,13 @@ In addition you can limit allowed file extensions.
 Source: http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingHTTPPOST.html
 
 ## Install
-```npm install s3-browser-upload```
+```npm install s3-browser-direct-upload```
 
 ## Usage examples
 
 ### Create a client
 ```
-var s3BrowserUpload = require('s3-browser-upload');
+var s3BrowserDirectUpload = require('s3-browser-direct-upload');
 
 var s3clientOptions = {
   accessKeyId: 'accessKeyId', // required
@@ -31,7 +31,7 @@ var s3clientOptions = {
 
 var allowedTypes = ['jpg', 'png'];
 
-var s3client = new s3BrowserUpload(s3clientOptions, allowedTypes); // allowedTypes is optional
+var s3client = new s3BrowserDirectUpload(s3clientOptions, allowedTypes); // allowedTypes is optional
 ```
 For more information check API documentation.
 
