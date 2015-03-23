@@ -1,4 +1,4 @@
-# s3-browser-upload
+# s3-browser-direct-upload
 _       = require('lodash')
 mime    = require('mime')
 moment  = require('moment')

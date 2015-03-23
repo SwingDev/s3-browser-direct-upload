@@ -1,3 +1,4 @@
+# s3-browser-direct-upload
 _           = require('lodash')
 fs          = require('fs')
 moment      = require('moment')
@@ -11,7 +12,6 @@ assert    = chai.assert
 expect    = chai.expect
 
 chai.use(sinonChai)
-
 s3BrowserUpload = require('../lib')
 
 
