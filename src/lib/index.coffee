@@ -26,7 +26,7 @@ class S3Client
     key = options.key
     bucket = options.bucket
     extension = options.extension ? null
-    expires = options.expires ? moment().add(60, 'minutes').toDate()
+    expires = options.expires ? moment.utc().add(60, 'minutes').toDate()
     acl = options.acl ? 'public-read'
     contentLength = options.contentLength ? null
     algorithm = options.algorithm ? 'AWS4-HMAC-SHA256'
@@ -50,11 +50,11 @@ class S3Client
 
     policyDoc = {}
 
-    policyDoc["expiration"] = moment(expires).format("YYYY-MM-DD[T]HH:MM:SS[Z]") if expires and _.isDate expires
+    policyDoc["expiration"] = moment.utc(expires).format("YYYY-MM-DD[T]HH:MM:SS[Z]") if expires and _.isDate expires
     policyDoc["conditions"] = []
 
-    dateShortPolicy = moment().format('YYYYMMDD')
-    dateLongPolicy = moment().format('YYYYMMDD[T]HHMMSS[Z]')
+    dateShortPolicy = moment.utc().format('YYYYMMDD')
+    dateLongPolicy = moment.utc().format('YYYYMMDD[T]HHMMSS[Z]')
 
     policyDoc.conditions.push { 'bucket': bucket }
     policyDoc.conditions.push [ 'starts-with', '$key', key ]
@@ -114,7 +114,7 @@ class S3Client
       return cb new Error 'Data extension not allowed' unless contentType
       params["ContentType"] = contentType
 
-    params["Expires"] = moment(expires) if expires and _.isDate expires
+    params["Expires"] = moment.utc(expires) if expires and _.isDate expires
     params["ACL"] = acl if acl
     params["ContentLength"] = contentLength if contentLength
 
@@ -146,7 +146,7 @@ class S3Client
       return cb new Error 'Data extension not allowed' unless contentType
       params["ContentType"] = contentType
 
-    params["Expires"] = moment(expires) if expires and _.isDate expires
+    params["Expires"] = moment.utc(expires) if expires and _.isDate expires
     params["ACL"] = acl if acl
 
     @s3.getSignedUrl "putObject", params, (err, data) ->
