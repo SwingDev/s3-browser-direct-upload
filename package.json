@@ -1,6 +1,6 @@
 {
   "name": "s3-browser-direct-upload",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "s3-browser-direct-upload for node",
   "main": "index.js",
   "author": "SWINGDEV",
