@@ -47,6 +47,32 @@ describe 's3-uploadPostForm tests', () ->
         expect(params).to.have.deep.property 'params.x-amz-signature'
         expect(params).to.have.deep.property 'public_url'
         expect(params).to.have.deep.property 'form_url'
+        expect(params).to.not.have.deep.property 'conditions'
+
+        done()
+
+    it 'should return json with all parameters required to build a form if custom conditionMatching used', (done) ->
+      uploadPostFormOptions =
+        key: "testKey.jpg"
+        bucket: 'testBucket'
+        expires: moment().add(60, 'minutes').toDate()
+        extension: 'jpg'
+        conditionMatching: [
+          {"success_action_redirect": "http://google.com"}
+        ]
+
+      s3client.uploadPostForm uploadPostFormOptions, (err, params) ->
+        expect(params).to.have.deep.property 'params.key'
+        expect(params).to.have.deep.property 'params.acl'
+        expect(params).to.have.deep.property 'params.content-type'
+        expect(params).to.have.deep.property 'params.x-amz-algorithm'
+        expect(params).to.have.deep.property 'params.x-amz-credential'
+        expect(params).to.have.deep.property 'params.x-amz-date'
+        expect(params).to.have.deep.property 'params.policy'
+        expect(params).to.have.deep.property 'params.x-amz-signature'
+        expect(params).to.have.deep.property 'public_url'
+        expect(params).to.have.deep.property 'form_url'
+        expect(params).to.have.deep.property 'conditions'
 
         done()
 

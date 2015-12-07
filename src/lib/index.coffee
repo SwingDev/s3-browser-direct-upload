@@ -22,7 +22,7 @@ class S3Client
   # Browser form post params for uploading
   uploadPostForm: (options = {}, cb) ->
     throw new Error 'Callback is required' unless cb
-    { extension, key, bucket, expires, acl, contentLength, algorithm, region } = options
+    { extension, key, bucket, expires, acl, contentLength, algorithm, region, conditionMatching } = options
     key = options.key
     bucket = options.bucket
     extension = options.extension ? null
@@ -31,6 +31,7 @@ class S3Client
     contentLength = options.contentLength ? null
     algorithm = options.algorithm ? 'AWS4-HMAC-SHA256'
     region = options.region ? @region
+    conditionMatching = options.conditionMatching ? null
 
     # @TODO options type check
     unless key and bucket
@@ -65,6 +66,9 @@ class S3Client
     policyDoc.conditions.push { "x-amz-credential": "#{@accessKeyId}/#{dateShortPolicy}/#{region}/s3/aws4_request" }
     policyDoc.conditions.push { "x-amz-date": dateLongPolicy}
 
+    if conditionMatching and _.isArray conditionMatching
+      policyDoc.conditions = _.union conditionMatching, policyDoc.conditions
+
     dateKey = crypto.createHmac(hashalg, "#{sigver}#{@secretAccessKey}").update(dateShortPolicy).digest()
     dateRegionKey = crypto.createHmac(hashalg, dateKey).update(region).digest()
     dateRegionServiceKey = crypto.createHmac(hashalg, dateRegionKey).update('s3').digest()
@@ -82,8 +86,9 @@ class S3Client
       "policy": policy
       "x-amz-signature": signature
     stream.params['content-type'] = contentType if contentType
-    stream['public_url'] = "https://#{bucket}.s3.amazonaws.com/#{key}"
-    stream['form_url'] = "https://#{bucket}.s3.amazonaws.com/"
+    stream['conditions']  = conditionMatching if conditionMatching
+    stream['public_url']  = "https://#{bucket}.s3.amazonaws.com/#{key}"
+    stream['form_url']    = "https://#{bucket}.s3.amazonaws.com/"
 
     cb null, stream
 
