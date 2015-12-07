@@ -44,7 +44,11 @@ var uploadPostFormOptions = {
   acl: 'public-read', // optional, default: 'public-read'
   expires: new Date('2018-01-01'), // optional (date object with expiration date for urls), default: +60 minutes
   algorithm: 'AWS4-HMAC-SHA256', // optional, default: 'AWS4-HMAC-SHA256'
-  region: 'eu-central-1' // optional, default: s3client.region
+  region: 'eu-central-1', // optional, default: s3client.region
+  conditionMatching: [
+    {"success_action_redirect": "http://google.com"},
+    ["condition", "key", "pattern"]
+  ] // optional
 };
 
 s3client.uploadPostForm(uploadPostFormOptions, function(err, params){
@@ -125,6 +129,7 @@ For more information check API documentation.
 * contentLength (Integer, optional)
 * algorithm (String, optional, default: 'AWS4-HMAC-SHA256')
 * region (String, optional, default: s3client.region)
+* conditionMatching (Array, optional)
 
 `callback` (err, params), returned params (JSON):
 
@@ -139,6 +144,7 @@ For more information check API documentation.
     - content-type
 * public_url
 * form_url
+* conditions
 
 ### s3client.upload
 `options` (JSON):
@@ -170,3 +176,5 @@ For more information check API documentation.
 
 ## License
 MIT
+
+Copyright Gabriel Oczkowski

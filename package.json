@@ -1,9 +1,9 @@
 {
   "name": "s3-browser-direct-upload",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "s3-browser-direct-upload for node",
   "main": "index.js",
-  "author": "SWINGDEV",
+  "author": "SWINGDEV - Gabriel Oczkowski",
   "license": "MIT",
   "scripts": {
     "test": "mocha --reporter spec --timeout 10000 --recursive test/"
