@@ -47,6 +47,8 @@ var uploadPostFormOptions = {
   region: 'eu-central-1', // optional, default: s3client.region
   conditionMatching: [
     {"success_action_redirect": "http://google.com"},
+    {"x-amz-meta-metadatafield": ""},
+    ["starts-with", "$key", "user/betty/"],
     ["condition", "key", "pattern"]
   ] // optional
 };
