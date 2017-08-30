@@ -51,11 +51,11 @@ class S3Client
 
     policyDoc = {}
 
-    policyDoc["expiration"] = moment.utc(expires).format("YYYY-MM-DD[T]HH:MM:SS[Z]") if expires and _.isDate expires
+    policyDoc["expiration"] = moment.utc(expires).format("YYYY-MM-DD[T]HH:mm:SS[Z]") if expires and _.isDate expires
     policyDoc["conditions"] = []
 
     dateShortPolicy = moment.utc().format('YYYYMMDD')
-    dateLongPolicy = moment.utc().format('YYYYMMDD[T]HHMMSS[Z]')
+    dateLongPolicy = moment.utc().format('YYYYMMDD[T]HHmmSS[Z]')
 
     policyDoc.conditions.push { 'bucket': bucket }
     policyDoc.conditions.push [ 'starts-with', '$key', key ]
