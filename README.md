@@ -1,3 +1,5 @@
+![Logotype](logotype.png)
+
 # Node Amazon S3 Browser Direct Upload
 
 `s3-browser-direct-upload` is a node.js library which gives you the ability to upload files to Amazon S3 easily using:
