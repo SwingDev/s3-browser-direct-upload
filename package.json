@@ -6,6 +6,7 @@
   "author": "SWINGDEV - Gabriel Oczkowski",
   "license": "MIT",
   "scripts": {
+    "compile": "gulp compile",
     "test": "mocha --reporter spec --timeout 10000 --recursive test/"
   },
   "repository": {
@@ -44,6 +45,7 @@
     "gulp-watch": "^1.2.0",
     "map-stream": "0.0.5",
     "merge-stream": "^0.1.6",
+    "mocha": "^8.4.0",
     "moment": "^2.9.0",
     "run-sequence": "^1.0.1",
     "sinon": "^1.14.1",

@@ -17,124 +17,139 @@ s3BrowserUpload = require('../lib')
 
 # TESTS
 describe 's3-uploadPostForm tests', () ->
+  runTests = (asEnvironmentVar) ->
+    delete process.env.AWS_ACCESS_KEY_ID
+    delete process.env.AWS_SECRET_ACCESS_KEY
+    accessKeyId = 'rHiziprP5FLOL5DpLaRc'
+    secretAccessKey = 'dGudXJxDvtgZ2oRvzuMY1uWA/tsziUXwkd3tnJBk'
+    testNameSuffix = ' without env'
 
-  describe '#uploadPostForm tests', () ->
+    if asEnvironmentVar
+      process.env.AWS_ACCESS_KEY_ID = accessKeyId
+      process.env.AWS_SECRET_ACCESS_KEY = secretAccessKey
+      accessKeyId = ''
+      secretAccessKey = ''
+      testNameSuffix = ' with env'
 
-    s3client = null
+    describe '#uploadPostForm tests' + testNameSuffix , () ->
 
-    before ->
-      s3client = new s3BrowserUpload
-        accessKeyId: 'rHiziprP5FLOL5DpLaRc'
-        secretAccessKey: 'dGudXJxDvtgZ2oRvzuMY1uWA/tsziUXwkd3tnJBk'
-        signatureVersion: "v4"
-        region: "eu-central-1"
+      s3client = null
 
-    it 'should return json with all parameters required to build a form', (done) ->
-      uploadPostFormOptions =
-        key: "testKey.jpg"
-        bucket: 'testBucket'
-        expires: moment().add(60, 'minutes').toDate()
-        extension: 'jpg'
+      before ->
+        s3client = new s3BrowserUpload
+          accessKeyId: accessKeyId
+          secretAccessKey: secretAccessKey
+          signatureVersion: "v4"
+          region: "eu-central-1"
 
-      s3client.uploadPostForm uploadPostFormOptions, (err, params) ->
-        expect(params).to.have.deep.property 'params.key'
-        expect(params).to.have.deep.property 'params.acl'
-        expect(params).to.have.deep.property 'params.content-type'
-        expect(params).to.have.deep.property 'params.x-amz-algorithm'
-        expect(params).to.have.deep.property 'params.x-amz-credential'
-        expect(params).to.have.deep.property 'params.x-amz-date'
-        expect(params).to.have.deep.property 'params.policy'
-        expect(params).to.have.deep.property 'params.x-amz-signature'
-        expect(params).to.have.deep.property 'public_url'
-        expect(params).to.have.deep.property 'form_url'
-        expect(params).to.not.have.deep.property 'conditions'
+      it 'should return json with all parameters required to build a form', (done) ->
+        uploadPostFormOptions =
+          key: "testKey.jpg"
+          bucket: 'testBucket'
+          expires: moment().add(60, 'minutes').toDate()
+          extension: 'jpg'
 
-        done()
+        s3client.uploadPostForm uploadPostFormOptions, (err, params) ->
+          expect(params).to.have.deep.property 'params.key'
+          expect(params).to.have.deep.property 'params.acl'
+          expect(params).to.have.deep.property 'params.content-type'
+          expect(params).to.have.deep.property 'params.x-amz-algorithm'
+          expect(params).to.have.deep.property 'params.x-amz-credential'
+          expect(params).to.have.deep.property 'params.x-amz-date'
+          expect(params).to.have.deep.property 'params.policy'
+          expect(params).to.have.deep.property 'params.x-amz-signature'
+          expect(params).to.have.deep.property 'public_url'
+          expect(params).to.have.deep.property 'form_url'
+          expect(params).to.not.have.deep.property 'conditions'
 
-    it 'should return json with all parameters required to build a form if custom conditionMatching used', (done) ->
-      uploadPostFormOptions =
-        key: "testKey.jpg"
-        bucket: 'testBucket'
-        expires: moment().add(60, 'minutes').toDate()
-        extension: 'jpg'
-        conditionMatching: [
-          {"success_action_redirect": "http://google.com"}
-        ]
+          done()
 
-      s3client.uploadPostForm uploadPostFormOptions, (err, params) ->
-        expect(params).to.have.deep.property 'params.key'
-        expect(params).to.have.deep.property 'params.acl'
-        expect(params).to.have.deep.property 'params.content-type'
-        expect(params).to.have.deep.property 'params.x-amz-algorithm'
-        expect(params).to.have.deep.property 'params.x-amz-credential'
-        expect(params).to.have.deep.property 'params.x-amz-date'
-        expect(params).to.have.deep.property 'params.policy'
-        expect(params).to.have.deep.property 'params.x-amz-signature'
-        expect(params).to.have.deep.property 'public_url'
-        expect(params).to.have.deep.property 'form_url'
-        expect(params).to.have.deep.property 'conditions'
+      it 'should return json with all parameters required to build a form if custom conditionMatching used', (done) ->
+        uploadPostFormOptions =
+          key: "testKey.jpg"
+          bucket: 'testBucket'
+          expires: moment().add(60, 'minutes').toDate()
+          extension: 'jpg'
+          conditionMatching: [
+            {"success_action_redirect": "http://google.com"}
+          ]
 
-        done()
+        s3client.uploadPostForm uploadPostFormOptions, (err, params) ->
+          expect(params).to.have.deep.property 'params.key'
+          expect(params).to.have.deep.property 'params.acl'
+          expect(params).to.have.deep.property 'params.content-type'
+          expect(params).to.have.deep.property 'params.x-amz-algorithm'
+          expect(params).to.have.deep.property 'params.x-amz-credential'
+          expect(params).to.have.deep.property 'params.x-amz-date'
+          expect(params).to.have.deep.property 'params.policy'
+          expect(params).to.have.deep.property 'params.x-amz-signature'
+          expect(params).to.have.deep.property 'public_url'
+          expect(params).to.have.deep.property 'form_url'
+          expect(params).to.have.deep.property 'conditions'
 
-  describe '#upload tests', () ->
+          done()
 
-    s3client = null
+    describe '#upload tests' + testNameSuffix, () ->
 
-    before ->
-      s3client = new s3BrowserUpload
-        accessKeyId: 'rHiziprP5FLOL5DpLaRc'
-        secretAccessKey: 'dGudXJxDvtgZ2oRvzuMY1uWA/tsziUXwkd3tnJBk'
-        signatureVersion: "v4"
-        region: "eu-central-1"
+      s3client = null
 
-      sinon.stub s3client.s3, 'upload', (params, cb) ->
-        cb()
+      before ->
+        s3client = new s3BrowserUpload
+          accessKeyId: accessKeyId
+          secretAccessKey: secretAccessKey
+          signatureVersion: "v4"
+          region: "eu-central-1"
 
-    after ->
-      s3client.s3.upload.restore()
+        sinon.stub s3client.s3, 'upload', (params, cb) ->
+          cb()
 
-    it 'should return url of uploaded file', (done) ->
-      uploadOptions =
-        data: "String Object data"
-        key: "testKey.txt"
-        bucket: 'testBucket'
-        extension: 'txt'
-        acl: 'public-read'
+      after ->
+        s3client.s3.upload.restore()
 
-      s3client.upload uploadOptions, (err, url) ->
-        expect(url).to.exists
-        expect(url).to.equal 'https://testBucket.s3.amazonaws.com/testKey.txt'
-        done()
+      it 'should return url of uploaded file', (done) ->
+        uploadOptions =
+          data: "String Object data"
+          key: "testKey.txt"
+          bucket: 'testBucket'
+          extension: 'txt'
+          acl: 'public-read'
 
-  describe '#put tests', () ->
+        s3client.upload uploadOptions, (err, url) ->
+          expect(url).to.exists
+          expect(url).to.equal 'https://testBucket.s3.amazonaws.com/testKey.txt'
+          done()
 
-    s3client = null
+    describe '#put tests' + testNameSuffix, () ->
 
-    before ->
-      s3client = new s3BrowserUpload
-        accessKeyId: 'rHiziprP5FLOL5DpLaRc'
-        secretAccessKey: 'dGudXJxDvtgZ2oRvzuMY1uWA/tsziUXwkd3tnJBk'
-        signatureVersion: "v4"
-        region: "eu-central-1"
+      s3client = null
 
-      sinon.stub s3client.s3, 'getSignedUrl', (typeName, params, cb) ->
-        cb(null, 'https://testBucket.s3.amazonaws.com/testKey.txt')
+      before ->
+        s3client = new s3BrowserUpload
+          accessKeyId: accessKeyId
+          secretAccessKey: secretAccessKey
+          signatureVersion: "v4"
+          region: "eu-central-1"
 
-    after ->
-      s3client.s3.getSignedUrl.restore()
+        sinon.stub s3client.s3, 'getSignedUrl', (typeName, params, cb) ->
+          cb(null, 'https://testBucket.s3.amazonaws.com/testKey.txt')
 
-    it 'should return json with signed and public urls', (done) ->
-      uploadOptions =
-        key: "testKey.txt"
-        bucket: 'testBucket'
-        extension: 'txt'
-        acl: 'public-read'
+      after ->
+        s3client.s3.getSignedUrl.restore()
 
-      s3client.put uploadOptions, (err, urls) ->
-        expect(urls).to.have.property 'signed_url'
-        expect(urls).to.have.property 'public_url'
-        done()
+      it 'should return json with signed and public urls', (done) ->
+        uploadOptions =
+          key: "testKey.txt"
+          bucket: 'testBucket'
+          extension: 'txt'
+          acl: 'public-read'
 
+        s3client.put uploadOptions, (err, urls) ->
+          expect(urls).to.have.property 'signed_url'
+          expect(urls).to.have.property 'public_url'
+          done()
+
+  runTests true
+  runTests false
 
 
 
