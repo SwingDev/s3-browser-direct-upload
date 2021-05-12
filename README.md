@@ -9,7 +9,7 @@
 * S3.putObject method
 * works with v4 signature version
 
-In addition you can limit allowed file extensions.
+In addition, you can limit allowed file extensions.
 
 
 ![amazon s3 browser post](http://docs.aws.amazon.com/AmazonS3/latest/dev/images/s3_post.png)<br/>
@@ -99,8 +99,8 @@ For more information check API documentation.
 ### s3client constructor parameters
 `options` (JSON or AWS.Config object):
 
-* accessKeyId (String)
-* secretAccessKey (String)
+* accessKeyId (String, optional if included in environment)
+* secretAccessKey (String, optional if included in environment)
 * region (String, required)
 * signatureVersion (String, optional)
 * maxRetries (Integer, optional)
