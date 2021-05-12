@@ -10,9 +10,8 @@ class S3Client
     aws = require('aws-sdk')
 
     @_checkOptions options unless options instanceof aws.Config
-    aws.config.update options
 
-    @s3 = new aws.S3()
+    @s3 = new aws.S3(options)
 
     @arrAllowedDataExtensions = null
     if arrAllowedDataExtensions and @_checkAllowedDataExtensions arrAllowedDataExtensions
@@ -104,7 +103,7 @@ class S3Client
     expires = options.expires ? null
     acl = options.acl ? null
     contentLength = options.contentLength ? null
-    
+
     # @TODO options type check
     unless data and key and bucket
       return cb new Error 'data, key and bucket are required'
@@ -192,19 +191,13 @@ class S3Client
       @apiVersion, @httpOptions, @apiVersions, @sessionToken, @credentials, @credentialProvider, @logger
     } = options
 
-    unless @accessKeyId
-      throw new Error "accessKeyId is required"
-
-    unless @secretAccessKey
-      throw new Error "secretAccessKey is required"
-
     unless @region
       throw new Error "region is required"
 
-    unless _.isString @accessKeyId
+    if @accessKeyId and not _.isString @accessKeyId
       throw new Error "accessKeyId must be a string"
 
-    unless _.isString @secretAccessKey
+    if @secretAccessKey and not _.isString @secretAccessKey
       throw new Error "secretAccessKey must be a string"
 
     unless _.isString @region

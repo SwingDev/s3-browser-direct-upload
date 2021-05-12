@@ -25,8 +25,8 @@ Image source:http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingHTTPPOST.html
 var s3BrowserDirectUpload = require('s3-browser-direct-upload');
 
 var s3clientOptions = {
-  accessKeyId: 'accessKeyId', // required
-  secretAccessKey: 'secretAccessKey', // required
+  accessKeyId: 'accessKeyId', // optional if set in the environment
+  secretAccessKey: 'secretAccessKey', // optional if set in the environment
   region: 'eu-central-1', // required
   signatureVersion: 'v4' // optional
 };
@@ -99,8 +99,8 @@ For more information check API documentation.
 ### s3client constructor parameters
 `options` (JSON or AWS.Config object):
 
-* accessKeyId (String, required)
-* secretAccessKey (String, required)
+* accessKeyId (String)
+* secretAccessKey (String)
 * region (String, required)
 * signatureVersion (String, optional)
 * maxRetries (Integer, optional)
